@@ -20,7 +20,7 @@ def handle_local_links(url, link):
 
 def get_links(url):
     try:
-        resp = requests.get(url)
+        resp = request.get(url)
         soup = bs.BeautifulSoup(resp.text, 'lxml')
         body = soup.body
         links = [link.get('href') for link in body.find_all('a')]
@@ -52,8 +52,8 @@ def main():
     how_many = 50
     p = Pool(processes=how_many)
     parse_us = [random_starting_url() for _ in range(how_many)]
-    
     data = p.map(get_links, [link for link in parse_us])
+    # Take a lists of lists, and take the data in each of those lists, and put it into a single list
     data = [url for url_list in data for url in url_list]
     p.close()
 
@@ -61,6 +61,6 @@ def main():
         f.write(str(data))
 
 if __name__ == '__main__':
-    main()
+    main
 
 
